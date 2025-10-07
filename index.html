@@ -291,11 +291,8 @@
             margin-top: 1.5rem;
             box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
             animation: glow 2s ease-in-out infinite;
-        }
-
-        .flight-deck-badge a {
-            text-decoration: none;
-            color: white;
+            position: relative; /* Lift the link above pseudo-elements */
+            z-index: 1;         /* Ensure it's on a higher layer */
         }
 
         @keyframes glow {
@@ -578,6 +575,7 @@
             letter-spacing: 1px;
             box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4);
             position: relative;
+            z-index: 1; /* Ensure button is above card pseudo-elements */
             overflow: hidden;
         }
 
@@ -1027,7 +1025,7 @@
                 <div class="header-subtitle">The Official AVDJ.ca AViator Academy</div>
             </div>
             <p class="tagline">Navigate the airwaves. Master your instrument panel and enjoy the voyage through sound and time.</p>
-            <div class="flight-deck-badge"><a href="https://mixkit.djay.ca/" target="_blank">✈️ LAUNCH FLIGHT DECK ✈️</a></div>
+            <a href="https://mixkit.djay.ca/" target="_blank" class="flight-deck-badge" style="text-decoration: none; color: white;">✈️ LAUNCH FLIGHT DECK ✈️</a>
         </header>
 
         <div class="voyage-intro">
@@ -1059,7 +1057,7 @@
 
                 <p style="margin-top: 1rem; opacity: 0.85; font-size: 0.9rem;">🚶 <strong>Step onto the flight line.</strong> No login required. Get familiar with the controls.</p>
                 
-                <a href="https://mixkit.djay.ca/" class="cta-button" target="_blank">Try Crew "EARLY" Access</a>
+                <a href="https://mixkit.djay.ca/" class="cta-button" target="_blank">Try Crew Access</a>
             </div>
 
             <!-- Club Cadet Permit -->
