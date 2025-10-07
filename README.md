@@ -1,2 +1,2 @@
 # flightdeck
-The Flight Deck - AV Flight School / DJ Instrument Panels 
+The Flight Deck - AViator Academy / DJ Instrument Panels 
