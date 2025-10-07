@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DJAY.ca - Your DJ Flight School. Master your Instrument Panel at flightdeck.djay.ca. Navigate the airwaves and earn your way from Crew Access to Major Elite.">
+    <title>DJAY.ca | Flight Deck - Earn Your Navigator License</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background - club vibes */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0a0a 0%, #1a0a1a 50%, #0a1a1a 100%);
+            animation: bgPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Themed LED strip */
+        .led-strip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #ff00ff 0%, 
+                #00ffff 50%, 
+                #ff00ff 100%);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.8),
+                        0 0 60px rgba(0, 255, 255, 0.5);
+            z-index: 1000;
+            animation: ledFlow 3s linear infinite;
+        }
+
+        @keyframes ledFlow {
+            0% { 
+                background-position: 0% 50%;
+                box-shadow: 0 0 30px rgba(255, 0, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.5);
+            }
+            50% { 
+                background-position: 100% 50%;
+                box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(255, 0, 255, 0.5);
+            }
+            100% { 
+                background-position: 0% 50%;
+                box-shadow: 0 0 30px rgba(255, 0, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.5);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 2rem 3rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 30px;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8),
+                        0 0 80px rgba(0, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-button {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #00ffff, #0099cc);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+            z-index: 10;
+        }
+
+        .login-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.6);
+        }
+
+        .header-title-group {
+            margin-bottom: 2rem;
+        }
+
+        .header-welcome {
+            font-size: 2.2rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #a29bfe, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .header-main-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            text-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+            letter-spacing: 3px;
+        }
+
+        .header-subtitle {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+            margin-bottom: 1.5rem;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255, 0, 255, 0.03) 50%, 
+                transparent 70%);
+            animation: shimmer 6s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        header h1 {
+            display: none; /* Will use new header structure */
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto 1rem auto;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .sub-tagline {
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            opacity: 0.8;
+            color: #ff00ff;
+            font-style: italic;
+        }
+
+        .flight-deck-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 255, 0.5); }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.8); }
+        }
+
+        .voyage-intro {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.2);
+        }
+
+        .voyage-intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .voyage-intro p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .voyage-intro strong {
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .gamification-callout {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .gamification-callout h3 {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .gamification-callout p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .pilot-licenses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .license-card {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 25px;
+            padding: 2rem;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .license-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--card-gradient);
+            box-shadow: 0 0 20px var(--card-color);
+        }
+
+        .license-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--card-color) 0%, transparent 70%);
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+        }
+
+        .license-card:hover::after {
+            width: 400px;
+            height: 400px;
+            opacity: 0.1;
+        }
+
+        .license-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--card-color);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
+                        0 0 40px var(--card-color);
+        }
+
+        .crew-access {
+            --card-color: rgba(128, 128, 128, 0.8);
+            --card-gradient: linear-gradient(90deg, #808080, #a0a0a0);
+        }
+
+        .club-cadet {
+            --card-color: rgba(255, 215, 0, 0.8);
+            --card-gradient: linear-gradient(90deg, #ffd700, #ffed4e);
+        }
+
+        .navigator {
+            --card-color: rgba(0, 255, 255, 0.8);
+            --card-gradient: linear-gradient(90deg, #00ffff, #00cccc);
+        }
+
+        .captain {
+            --card-color: rgba(162, 155, 254, 0.8);
+            --card-gradient: linear-gradient(90deg, #a29bfe, #6c5ce7);
+        }
+
+        .major-elite {
+            --card-color: rgba(255, 0, 255, 0.8);
+            --card-gradient: linear-gradient(90deg, #ff00ff, #ff00aa);
+        }
+
+        .license-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px var(--card-color));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .license-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--card-color);
+            font-weight: 900;
+            text-shadow: 0 0 20px var(--card-color);
+        }
+
+        .license-subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 1.2rem;
+            color: #cccccc;
+        }
+
+        .license-features {
+            list-style: none;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .license-features li {
+            padding: 0.6rem 0;
+            padding-left: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .license-features li:hover {
+            padding-left: 2.5rem;
+            color: var(--card-color);
+        }
+
+        .license-features li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--card-color);
+            font-weight: bold;
+            font-size: 0.8rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.9); }
+        }
+
+        .license-badge {
+            display: inline-block;
+            background: var(--card-gradient);
+            color: #000;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 900;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            box-shadow: 0 0 20px var(--card-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .unlock-badge {
+            display: block;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #000;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 900;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            animation: unlockPulse 2s infinite;
+        }
+
+        @keyframes unlockPulse {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 50px rgba(255, 165, 0, 0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        .special-badge {
+            display: block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 900;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            animation: specialPulse 2s infinite;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+        }
+
+        @keyframes specialPulse {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 50px rgba(118, 75, 162, 0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(255, 0, 255, 0.6);
+        }
+
+        .cta-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--card-color);
+        }
+
+        .comparison-table {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 4rem 0;
+            overflow-x: auto;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .comparison-table h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 900;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #00ffff;
+        }
+
+        tr:hover {
+            background: rgba(255, 0, 255, 0.05);
+        }
+
+        .check {
+            color: #00ff00;
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 5px #00ff00);
+        }
+
+        .cross {
+            color: #ff0000;
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 5px #ff0000);
+        }
+
+        .limited {
+            color: #ffff00;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .bonus-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            border: 3px solid rgba(102, 126, 234, 0.5);
+            border-radius: 30px;
+            padding: 3rem 2rem;
+            margin: 4rem 0;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .bonus-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+            font-weight: 900;
+        }
+
+        .bonus-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .bonus-card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.4);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .bonus-card:hover {
+            transform: translateY(-10px);
+            border-color: #a29bfe;
+            box-shadow: 0 15px 40px rgba(162, 155, 254, 0.4);
+        }
+
+        .bonus-card h3 {
+            color: #a29bfe;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .bonus-card p {
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        .voyage-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .voyage-footer h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffd700, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .voyage-footer p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 1rem auto;
+        }
+
+        .voyage-footer strong {
+            color: #00ffff;
+            font-size: 1.2rem;
+        }
+
+        /* Login Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(20, 20, 40, 0.95);
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 25px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.3);
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #00ffff;
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .form-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.5);
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .modal-footer a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .modal-footer a:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        @media (max-width: 1200px) {
+            .pilot-licenses {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pilot-licenses {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.8rem;
+            }
+
+            .comparison-table {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="led-strip"></div>
+    <div class="bg-gradient"></div>
+    
+    <div class="container">
+        <header>
+            <button class="login-button" onclick="openLoginModal()">Login</button>
+            <div class="header-title-group">
+                <div class="header-welcome">Welcome to the</div>
+                <div class="header-main-title">Flight Deck</div>
+                <div class="header-subtitle">The Official DJAY.CA Flight School</div>
+            </div>
+            <p class="tagline">Navigate the airwaves. Master your instrument panel and enjoy the voyage through sound and time.</p>
+            <div class="flight-deck-badge">✈️ LAUNCH FLIGHT DECK ✈️</div>
+        </header>
+
+        <div class="voyage-intro">
+            <h2>✈️ From Crew Access to Major Elite</h2>
+            <p><strong>The voyage is the destination.</strong> Begin with instant Crew Access—no login, no commitment. Earn your Club Cadet Permit and start collecting flight hours. Unlock your Navigator License through badges or subscription. Advance to Captain and command professional airwaves. Reach Major Elite status with experimental panels and Black Ops skins.</p>
+            <p style="margin-top: 1.5rem;">Whether stepping onto the flight line for the first time or commanding commercial vessels—<strong>earn your way, enjoy the journey.</strong></p>
+        </div>
+
+        <div class="gamification-callout">
+            <h3>🎖️ Earn Your Way to Navigator License</h3>
+            <p><strong>New gamified progression!</strong> Start as a Club Cadet and collect "Flight Hours" badges by mixing, mastering techniques, and completing challenges. Earn enough badges to unlock the Navigator License FREE—or subscribe for instant ad-free upgrade. Your skill determines your rank!</p>
+        </div>
+
+        <div class="pilot-licenses">
+            <!-- Crew Access -->
+            <div class="license-card crew-access">
+                <div class="license-icon">👥</div>
+                <h3 class="license-title">Crew Access</h3>
+                <p class="license-subtitle">Introductory Demo</p>
+                <div class="license-badge">Instant Access</div>
+                
+                <ul class="license-features">
+                    <li>Single Deck Panel</li>
+                    <li>Essential Mixer Controls</li>
+                    <li>Basic Waveform</li>
+                    <li>Demo Track Library</li>
+                    <li>Explore Before You Commit</li>
+                </ul>
+
+                <p style="margin-top: 1rem; opacity: 0.85; font-size: 0.9rem;">🚶 <strong>Step onto the flight line.</strong> No login required. Get familiar with the controls.</p>
+                
+                <a href="https://flightdeck.djay.ca" class="cta-button" target="_blank">Try Crew Access</a>
+            </div>
+
+            <!-- Club Cadet Permit -->
+            <div class="license-card club-cadet">
+                <div class="license-icon">🎓</div>
+                <h3 class="license-title">Club Cadet Permit</h3>
+                <p class="license-subtitle">Entry-Level License</p>
+                <div class="license-badge">Login Required</div>
+                <div class="unlock-badge">🎖️ BADGES START HERE</div>
+                
+                <ul class="license-features">
+                    <li>Dual Deck Navigation Panel</li>
+                    <li>Basic Waveform Display</li>
+                    <li>Essential Mixer Controls</li>
+                    <li>Tempo Control</li>
+                    <li>Basic Effects (3 types)</li>
+                    <li>Crossfader</li>
+                    <li>Basic EQ</li>
+                    <li>Limited Playlist (5 songs)</li>
+                    <li>Ads Supported</li>
+                    <li>Earn Flight Hours Badges</li>
+                </ul>
+
+                <p style="margin-top: 1rem; opacity: 0.85; font-size: 0.9rem;">✈️ <strong>Your First Official Permit.</strong> Begin training and earn your initial stripes.</p>
+                
+                <button class="cta-button">Get Cadet Permit (Q1 2025)</button>
+            </div>
+
+            <!-- Navigator License -->
+            <div class="license-card navigator">
+                <div class="license-icon">🧭</div>
+                <h3 class="license-title">Navigator License</h3>
+                <p class="license-subtitle">Advanced Learner's License</p>
+                <div class="license-badge">Earn or Subscribe</div>
+                <div class="unlock-badge">🏆 UNLOCK VIA BADGES OR PAY</div>
+                
+                <ul class="license-features">
+                    <li>All Club Cadet features</li>
+                    <li>BPM Sync Navigation</li>
+                    <li>Looping Controls</li>
+                    <li>Full 3-Band EQ</li>
+                    <li>Extended Effects (8 types)</li>
+                    <li>Unlimited Playlists</li>
+                    <li>Save & Load Sessions</li>
+                    <li>Pitch Bend Controls</li>
+                    <li>Key Lock</li>
+                    <li>Continue Badge Earning</li>
+                </ul>
+
+                <p style="margin-top: 1rem; opacity: 0.85; font-size: 0.9rem;">🛩️ <strong>Upgraded Learner's Permit.</strong> Unlock FREE by earning badges OR subscribe for instant ad-free access.</p>
+                <p style="margin-top: 0.5rem; opacity: 0.7; font-size: 0.85rem;"><em>Still has ads unless you choose "Ad-Free Navigator Pass"</em></p>
+                
+                <button class="cta-button secondary">Earn Your Way (Q1 2025)</button>
+            </div>
+
+            <!-- Captain License -->
+            <div class="license-card captain">
+                <div class="license-icon">👨‍✈️</div>
+                <h3 class="license-title">Captain License</h3>
+                <p class="license-subtitle">Mid-Pro Commercial</p>
+                <div class="license-badge">Paid Subscription</div>
+                
+                <ul class="license-features">
+                    <li>All Navigator features</li>
+                    <li>Ad-Free Voyage (Standard)</li>
+                    <li>Professional Effects (15 types)</li>
+                    <li>Advanced Looping</li>
+                    <li>Hot Cues (8 per deck)</li>
+                    <li>Basic MIDI Support</li>
+                    <li>2 Custom Theme Slots</li>
+                    <li>Session Recording</li>
+                    <li>Priority Email Support</li>
+                    <li>Enhanced Badge System</li>
+                </ul>
+
+                <p style="margin-top: 1rem; opacity: 0.85; font-size: 0.9rem;">🎖️ <strong>Professional Command.</strong> Lead the voyage. Navigate major airwaves for professional gigs.</p>
+                
+                <button class="cta-button secondary">Pricing TBD (Q2 2025)</button>
+            </div>
+
+            <!-- Major Elite License -->
+            <div class="license-card major-elite">
+                <div class="license-icon">⭐</div>
+                <h3 class="license-title">Major Elite License</h3>
+                <p class="license-subtitle">Premium Pro - Highest Rank</p>
+                <div class="license-badge">Premium Subscription</div>
+                <div class="special-badge">🔬 EXPERIMENTAL ACCESS</div>
+                
+                <ul class="license-features">
+                    <li>All Captain features</li>
+                    <li>Unlimited Custom Themes</li>
+                    <li>Full MIDI Controller Support</li>
+                    <li>Custom EQ Profiles</li>
+                    <li>Cloud Session Backup</li>
+                    <li>Full Offline Mode</li>
+                    <li>Priority Live Chat Support</li>
+                    <li>Advanced Analytics</li>
+                    <li>Custom Branding Options</li>
+                    <li>Mix Export (WAV/MP3)</li>
+                    <li>Experimental Pre-Releases</li>
+                    <li>Black Ops Secret Skins</li>
+                </ul>
+
+                <p style="margin-top: 1rem; opacity: 0.85; font-size: 0.9rem;">🛸 <strong>Ultimate Command Center.</strong> Push boundaries. Shape the future. Earn elite badges and Black Ops skins.</p>
+                
+                <button class="cta-button secondary">Coming Q2 2025</button>
+            </div>
+        </div>
+
+        <div class="bonus-section">
+            <h2>🎖️ Major Elite - The Highest Rank</h2>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Premium navigators unlock experimental flight deck systems and exclusive achievements</p>
+            
+            <div class="bonus-features">
+                <div class="bonus-card">
+                    <h3>🔬 Experimental Navigation Panels</h3>
+                    <p>Test cutting-edge controls before public release. Shape the future of DJ navigation technology with early beta access to advanced flight deck systems. Your feedback drives innovation.</p>
+                </div>
+                
+                <div class="bonus-card">
+                    <h3>🎖️ Elite Aviator Badge System</h3>
+                    <p>Earn elite badges for complex mixes, live performance achievements, and community contributions. Track your voyage from Club Cadet to Major Elite status. Recognition for true mastery.</p>
+                </div>
+                
+                <div class="bonus-card">
+                    <h3>🕶️ Black Ops Panel Skins</h3>
+                    <p>Unlock exclusive secret themes and visual cockpit designs as you earn aviator badges. Elite navigation skins for elite pilots. The more you voyage, the more you unlock. Top-tier aesthetics for top-tier navigators.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-table">
+            <h2>⚡ License Comparison - Earn Your Rank ⚡</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Crew Access 👥</th>
+                        <th>Club Cadet 🎓</th>
+                        <th>Navigator 🧭</th>
+                        <th>Captain 👨‍✈️</th>
+                        <th>Major Elite ⭐</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Rank Level</strong></td>
+                        <td><span class="limited">Demo</span></td>
+                        <td><span class="limited">Entry</span></td>
+                        <td><span class="limited">Advanced</span></td>
+                        <td><span class="check">Pro</span></td>
+                        <td><span class="check">Elite</span></td>
+                    </tr>
+                    <tr>
+                        <td>Deck Configuration</td>
+                        <td><span class="limited">Single</span></td>
+                        <td><span class="check">✓ Dual</span></td>
+                        <td><span class="check">✓ Dual</span></td>
+                        <td><span class="check">✓ Dual</span></td>
+                        <td><span class="check">✓ Dual</span></td>
+                    </tr>
+                    <tr>
+                        <td>Badge Earning</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓ Starts</span></td>
+                        <td><span class="check">✓ Advanced</span></td>
+                        <td><span class="check">✓ Enhanced</span></td>
+                        <td><span class="check">✓ Elite</span></td>
+                    </tr>
+                    <tr>
+                        <td>Effects Library</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="limited">3 Basic</span></td>
+                        <td><span class="limited">8 Types</span></td>
+                        <td><span class="check">✓ 15 Pro</span></td>
+                        <td><span class="check">✓ Unlimited</span></td>
+                    </tr>
+                    <tr>
+                        <td>BPM Sync Navigation</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>Looping Controls</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓ Basic</span></td>
+                        <td><span class="check">✓ Advanced</span></td>
+                        <td><span class="check">✓ Advanced</span></td>
+                    </tr>
+                    <tr>
+                        <td>Hot Cues</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓ 8/deck</span></td>
+                        <td><span class="check">✓ 8/deck</span></td>
+                    </tr>
+                    <tr>
+                        <td>EQ Controls</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="limited">Basic</span></td>
+                        <td><span class="check">✓ 3-Band</span></td>
+                        <td><span class="check">✓ 3-Band</span></td>
+                        <td><span class="check">✓ Custom</span></td>
+                    </tr>
+                    <tr>
+                        <td>Playlists</td>
+                        <td><span class="limited">Demo</span></td>
+                        <td><span class="limited">5 songs</span></td>
+                        <td><span class="check">✓ Unlimited</span></td>
+                        <td><span class="check">✓ Unlimited</span></td>
+                        <td><span class="check">✓ Unlimited</span></td>
+                    </tr>
+                    <tr>
+                        <td>MIDI Support</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓ Basic</span></td>
+                        <td><span class="check">✓ Full Custom</span></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Themes</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="limited">2 Slots</span></td>
+                        <td><span class="check">✓ Unlimited</span></td>
+                    </tr>
+                    <tr>
+                        <td>Recording/Export</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓ Session</span></td>
+                        <td><span class="check">✓ Full Mix</span></td>
+                    </tr>
+                    <tr>
+                        <td>Ad-Free Voyage</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="limited">Paid Option</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>Cloud Backup</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>Offline Navigation</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>Experimental Access</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>Black Ops Skins</td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cost</strong></td>
+                        <td><strong style="color: #808080;">FREE</strong></td>
+                        <td><strong style="color: #ffd700;">FREE</strong><br><span class="limited">(login req)</span></td>
+                        <td><strong style="color: #00ffff;">EARN/PAY</strong><br><span class="limited">(badges or $)</span></td>
+                        <td><strong style="color: #a29bfe;">TBD</strong></td>
+                        <td><strong style="color: #ff00ff;">TBD</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="voyage-footer">
+            <h2>🎓 Your Flight Path to Mastery</h2>
+            <p>Start with <strong>Crew Access</strong>—instant, no login. Step onto the flight line and explore.</p>
+            <p>Earn your <strong>Club Cadet Permit</strong> and begin collecting flight hours badges. Master techniques and complete challenges.</p>
+            <p><strong>Unlock Navigator License FREE</strong> by earning enough badges—or subscribe for instant ad-free access and advanced features.</p>
+            <p>Advance to <strong>Captain License</strong> for professional command. Navigate major airwaves with precision tools.</p>
+            <p>Reach <strong>Major Elite status</strong> for experimental panels, Black Ops skins, and the highest rank a navigator can achieve.</p>
+            <p style="margin-top: 2rem; font-size: 1.3rem;"><strong>Real-time monitoring. Decision-making under pressure. Smooth operations.</strong></p>
+            <p style="margin-top: 1rem; font-size: 1.2rem; color: #00ffff;">Whether stepping onto the flight line or commanding commercial vessels—<strong>earn your stripes, enjoy the voyage.</strong></p>
+            <p style="margin-top: 2rem; font-style: italic; opacity: 0.8;">No credit card required for Crew, Cadet, or earning Navigator License. Upgrade when you're ready to reach new altitudes. 🚀</p>
+        </div>
+    </div>
+
+    <!-- Login/Register Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLoginModal()">×</button>
+            <h2 class="modal-title">Navigator Login</h2>
+            <p class="modal-subtitle">Access your flight deck.</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="form-submit">Login</button>
+            </form>
+            
+            <div class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchToRegister(); return false;">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeRegisterModal()">×</button>
+            <h2 class="modal-title">Navigator Registration</h2>
+            <p class="modal-subtitle">Earn your Club Cadet Permit.</p>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="reg-name">Navigator Name</label>
+                    <input type="text" id="reg-name" placeholder="Enter your DJ name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" placeholder="Create a password" required>
+                </div>
+                
+                <button type="submit" class="form-submit">Register</button>
+            </form>
+            
+            <div class="modal-footer">
+                Already have an account? <a href="#" onclick="switchToLogin(); return false;">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openRegisterModal() {
+            document.getElementById('registerModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchToRegister() {
+            closeLoginModal();
+            openRegisterModal();
+        }
+
+        function switchToLogin() {
+            closeRegisterModal();
+            openLoginModal();
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeLoginModal();
+                closeRegisterModal();
+            }
+        });
+
+        // Form submissions (placeholder - add your backend logic here)
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Login functionality coming Q1 2025!');
+            closeLoginModal();
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Registration coming Q1 2025! Get ready to earn your Club Cadet Permit!');
+            closeRegisterModal();
+        });
+
+        // Add dynamic sparkle effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.license-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+
+            // Add scroll reveal animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.license-card, .bonus-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
