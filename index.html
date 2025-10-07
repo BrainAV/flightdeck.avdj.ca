@@ -6,6 +6,10 @@
     <meta name="description" content="AVDJ.ca - Your AViator Academy. Master your Instrument Panel at flightdeck.avdj.ca. Navigate the airwaves and earn your way from Crew Access to Major Elite.">
     <title>AVDJ.ca | Flight Deck - Earn Your AViator License</title>
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -1416,10 +1420,18 @@
     </div>
 
     <script>
+        // Element constants
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        const mainNav = document.querySelector('.main-nav');
+
         // Modal functions
         function openLoginModal() {
-            document.getElementById('loginModal').classList.add('active');
+            loginModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            navLinks.classList.remove('active'); // Close mobile nav
         }
 
         function closeLoginModal() {
@@ -1428,7 +1440,7 @@
         }
 
         function openRegisterModal() {
-            document.getElementById('registerModal').classList.add('active');
+            registerModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
@@ -1456,16 +1468,19 @@
         });
 
         // Hamburger menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('nav-links');
-
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
 
+        // Close mobile nav when a link is clicked
+        navLinks.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                navLinks.classList.remove('active');
+            }
+        });
+
         // Hide/show nav on scroll
         let lastScrollY = window.scrollY;
-        const mainNav = document.querySelector('.main-nav');
 
         window.addEventListener('scroll', () => {
             if (lastScrollY < window.scrollY && window.scrollY > 100) {
