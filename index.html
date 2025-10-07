@@ -74,18 +74,84 @@
             }
         }
 
+        /* Navbar */
+        .main-nav {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(15px);
+            padding: 0.5rem 2rem;
+            position: sticky;
+            top: 4px; /* Below the LED strip */
+            z-index: 999;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .main-nav.nav-hidden {
+            transform: translateY(calc(-100% - 4px));
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00ffff;
+            text-decoration: none;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links ul {
+            list-style: none;
+            display: flex;
+            margin-right: 2rem;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00ffff;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
             position: relative;
+            padding-top: 0; /* Adjust for sticky nav */
         }
 
         header {
             text-align: center;
             padding: 4rem 2rem 3rem 2rem;
             background: rgba(0, 0, 0, 0.8);
-            border-radius: 30px;
+            border-radius: 25px;
             margin-bottom: 3rem;
             backdrop-filter: blur(20px);
             border: 2px solid rgba(0, 255, 255, 0.3);
@@ -93,11 +159,12 @@
                         0 0 80px rgba(0, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
+            margin-top: 2rem; /* Add space below the nav */
         }
 
         .login-button {
             position: absolute;
-            top: 2rem;
+            top: 2.5rem;
             right: 2rem;
             background: linear-gradient(135deg, #00ffff, #0099cc);
             color: white;
@@ -113,6 +180,13 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
             z-index: 10;
+        }
+
+        .main-nav .login-button {
+            position: static; /* Override absolute positioning */
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            margin-left: 1rem;
         }
 
         .login-button:hover {
@@ -848,16 +922,96 @@
             th, td {
                 padding: 0.8rem;
             }
+
+            .main-nav {
+                padding: 0.75rem 1.5rem;
+            }
+
+            .hamburger {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                width: 2rem;
+                height: 2rem;
+                z-index: 1001;
+            }
+
+            .hamburger-bar {
+                width: 2rem;
+                height: 0.25rem;
+                background: #00ffff;
+                border-radius: 10px;
+                transition: all 0.3s linear;
+                position: relative;
+                transform-origin: 1px;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .nav-links ul {
+                flex-direction: column;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+
+            .nav-links li {
+                margin: 2rem 0;
+            }
+
+            .nav-links a {
+                font-size: 1.5rem;
+            }
+
+            .main-nav .login-button {
+                margin-top: 2rem;
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="led-strip"></div>
     <div class="bg-gradient"></div>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-brand">Flight Deck</a>
+            <div class="nav-links" id="nav-links">
+                <ul>
+                    <li><a href="#features">Tiers</a></li>
+                    <li><a href="#compare">Compare</a></li>
+                    <li><a href="#start">Get Started</a></li>
+                </ul>
+                <button class="login-button" onclick="openLoginModal()">Login</button>
+            </div>
+            <button class="hamburger" id="hamburger">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
+        </div>
+    </nav>
     
     <div class="container">
         <header>
-            <button class="login-button" onclick="openLoginModal()">Login</button>
             <div class="header-title-group">
                 <div class="header-welcome">Welcome to the</div>
                 <div class="header-main-title">Flight Deck</div>
@@ -878,7 +1032,7 @@
             <p><strong>New gamified progression!</strong> Start as a Club Cadet and collect "Flight Hours" badges by mixing, mastering techniques, and completing challenges. Earn enough badges to unlock the AViator License FREE—or subscribe for instant ad-free upgrade. Your skill determines your rank!</p>
         </div>
 
-        <div class="pilot-licenses">
+        <div id="features" class="pilot-licenses">
             <!-- Crew Access -->
             <div class="license-card crew-access">
                 <div class="license-icon">👥</div>
@@ -1028,7 +1182,7 @@
             </div>
         </div>
 
-        <div class="comparison-table">
+        <div id="compare" class="comparison-table">
             <h2>⚡ AViator License Comparison ⚡</h2>
             <table>
                 <thead>
@@ -1190,7 +1344,7 @@
             </table>
         </div>
 
-        <div class="voyage-footer">
+        <div id="start" class="voyage-footer">
             <h2>🎓 Your Flight Path to Mastery</h2>
             <p>Start with <strong>Crew Access</strong>—instant, no login. Step onto the flight line and explore.</p>
             <p>Earn your <strong>Club Cadet Permit</strong> and begin collecting flight hours badges. Master techniques and complete challenges.</p>
@@ -1299,6 +1453,29 @@
                 closeLoginModal();
                 closeRegisterModal();
             }
+        });
+
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Hide/show nav on scroll
+        let lastScrollY = window.scrollY;
+        const mainNav = document.querySelector('.main-nav');
+
+        window.addEventListener('scroll', () => {
+            if (lastScrollY < window.scrollY && window.scrollY > 100) {
+                // Scrolling down & past 100px
+                mainNav.classList.add('nav-hidden');
+            } else {
+                // Scrolling up
+                mainNav.classList.remove('nav-hidden');
+            }
+            lastScrollY = window.scrollY;
         });
 
         // Form submissions (placeholder - add your backend logic here)
