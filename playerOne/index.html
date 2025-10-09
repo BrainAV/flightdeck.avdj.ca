@@ -170,9 +170,10 @@ body {
 }
 
 .control-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center; /* ADD THIS LINE */
 }
 
 .control-label {
@@ -182,9 +183,16 @@ body {
   font-weight: 600;
 }
 
+
 .button-row {
   display: flex;
   gap: 8px;
+}
+/* Add this to your <style> block */
+.button-center-wrapper {
+  display: flex;
+  justify-content: center; /* This centers the button horizontally */
+  width: 100%; /* Ensure it spans the full width of the grid cell */
 }
 
 button {
@@ -270,12 +278,13 @@ button:active {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  justify-content: center;
 }
 
 .album-art {
-  width: 140px;
-  height: 140px;
+  width: 100%;
   background: linear-gradient(145deg, #9ca3af, #6b7280);
+  aspect-ratio: 1 / 1;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -486,10 +495,12 @@ button:active {
           </div>
         </div>
         
+
         <div class="control-group">
           <div class="control-label">TIME</div>
-          <button id="timeBtn" class="btn-round">ELA</button>
-        </div>
+            <div class="button-center-wrapper"><button id="timeBtn" class="btn-round">ELA</button>
+            </div>
+          </div>
         
         <div class="control-group search-group">
           <div class="control-label">SEARCH</div>
