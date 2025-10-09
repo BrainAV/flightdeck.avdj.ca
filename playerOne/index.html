@@ -17,6 +17,7 @@
 <title>DN-1000F Music Player</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 <style>
 * {
@@ -286,6 +287,12 @@ button:active {
 .album-art .material-icons {
   font-size: 64px;
   color: #374151;
+}
+
+.album-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .btn-load {
@@ -687,17 +694,35 @@ class DN1000F {
   
   async loadFiles(files) {
     this.tracks = [];
+    const jsmediatags = window.jsmediatags;
+
     for (let file of files) {
       try {
-        const arrayBuffer = await file.arrayBuffer();
-        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+        const [arrayBuffer, tags] = await Promise.all([
+          file.arrayBuffer(),
+          new Promise((resolve) => {
+            jsmediatags.read(file, {
+              onSuccess: (tag) => resolve(tag.tags),
+              onError: () => resolve(null) // Resolve with null if no tags found
+            });
+          })
+        ]);
+
+        // We need to clone the arrayBuffer because decodeAudioData can detach it
+        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+
         this.tracks.push({
           name: file.name.replace(/\.[^/.]+$/, ""),
           buffer: audioBuffer,
-          duration: audioBuffer.duration
+          duration: audioBuffer.duration,
+          tags: tags
         });
       } catch (error) {
         console.error('Error loading file:', file.name, error);
+        // Fallback for files without metadata or with loading errors
+        const arrayBuffer = await file.arrayBuffer();
+        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+        this.tracks.push({ name: file.name.replace(/\.[^/.]+$/, ""), buffer: audioBuffer, duration: audioBuffer.duration, tags: null });
       }
     }
     
@@ -717,6 +742,7 @@ class DN1000F {
     this.startOffset = 0;
     
     this.drawWaveform();
+    this.updateAlbumArt();
     this.updateDisplay();
   }
   
@@ -941,6 +967,28 @@ class DN1000F {
     this.updatePlayhead();
   }
   
+  updateAlbumArt() {
+    const albumArtContainer = document.getElementById('albumArt');
+    const track = this.tracks[this.currentTrack];
+    
+    // Clear previous art
+    albumArtContainer.innerHTML = '<span class="material-icons">music_note</span>';
+
+    if (track && track.tags && track.tags.picture) {
+      const { data, format } = track.tags.picture;
+      let base64String = "";
+      for (let i = 0; i < data.length; i++) {
+        base64String += String.fromCharCode(data[i]);
+      }
+      const imageUrl = `data:${format};base64,${window.btoa(base64String)}`;
+      
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      albumArtContainer.innerHTML = ''; // Clear the icon
+      albumArtContainer.appendChild(img);
+    }
+  }
+
   updatePlayhead() {
     if (!this.buffer) return;
     
