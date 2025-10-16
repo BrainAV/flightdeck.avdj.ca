@@ -96,7 +96,7 @@
             backdrop-filter: blur(15px);
             padding: 0.5rem 2rem;
             position: sticky;
-            top: 4px; /* Below the LED strip */
+            top: 4px;
             z-index: 999;
             border-bottom: 1px solid rgba(0, 255, 255, 0.2);
             transition: transform 0.3s ease-in-out;
@@ -124,10 +124,10 @@
             align-items: center;
             gap: 0.5rem;
         }
+
         .nav-brand img {
             width: 24px;
             height: 24px;
-            vertical-align: middle;
         }
 
         .nav-links {
@@ -168,7 +168,6 @@
             margin: 0 auto;
             padding: 2rem;
             position: relative;
-            padding-top: 0; /* Adjust for sticky nav */
         }
 
         header {
@@ -183,7 +182,7 @@
                         0 0 80px rgba(0, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
-            margin-top: 2rem; /* Add space below the nav */
+            margin-top: 2rem;
         }
 
         .login-button {
@@ -207,7 +206,7 @@
         }
 
         .main-nav .login-button {
-            position: static; /* Override absolute positioning */
+            position: static;
             padding: 0.6rem 1.5rem;
             font-size: 0.9rem;
             margin-left: 1rem;
@@ -219,34 +218,30 @@
         }
 
         .header-title-group {
-            margin-bottom: 2rem;
-           display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.4rem;
-        }
-         .header-main-row {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.6rem;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
         .header-logo {
-            width: 40px;
-            height: 40px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
-            flex: 0 0 40px;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));
+            filter: drop-shadow(0 4px 10px rgba(0, 255, 255, 0.4));
         }
 
         @media (max-width: 768px) {
-            .header-logo { width: 32px; height: 32px; flex: 0 0 32px; }
+            .header-logo { 
+                width: 50px; 
+                height: 50px; 
+            }
         }
 
         .header-welcome {
             font-size: 2.2rem;
             font-weight: 400;
-            margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #a29bfe, #00ffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -256,7 +251,6 @@
         .header-main-title {
             font-size: 4rem;
             font-weight: 900;
-            margin-bottom: 1rem;
             background: linear-gradient(135deg, #00ffff, #ff00ff);
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -296,10 +290,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        header h1 {
-            display: none; /* Will use new header structure */
-        }
-
         @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -314,14 +304,6 @@
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
         }
 
-        .sub-tagline {
-            font-size: 1.1rem;
-            margin-top: 1rem;
-            opacity: 0.8;
-            color: #ff00ff;
-            font-style: italic;
-        }
-
         .flight-deck-badge {
             display: inline-block;
             background: linear-gradient(135deg, #ff00ff, #00ffff);
@@ -332,8 +314,8 @@
             margin-top: 1.5rem;
             box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
             animation: glow 2s ease-in-out infinite;
-            position: relative; /* Lift the link above pseudo-elements */
-            z-index: 1;         /* Ensure it's on a higher layer */
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes glow {
@@ -616,7 +598,7 @@
             letter-spacing: 1px;
             box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4);
             position: relative;
-            z-index: 1; /* Ensure button is above card pseudo-elements */
+            z-index: 1;
             overflow: hidden;
         }
 
@@ -796,7 +778,6 @@
             font-size: 1.2rem;
         }
 
-        /* Login Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -1062,22 +1043,17 @@
     </nav>
     
     <div class="container">
-<header>
-    <div class="header-title-group">
-        <div class="header-welcome">Welcome to the</div>
+        <header>
+            <div class="header-title-group">
+                <img src="/flightdeck_logo.svg" alt="Flight Deck Logo" class="header-logo">
+                <div class="header-welcome">Welcome to the</div>
+                <div class="header-main-title">Flight Deck</div>
+                <div class="header-subtitle">The Official AVDJ.ca AViator Academy</div>
+            </div>
 
-        <!-- replaced single title with a row containing the logo + title -->
-        <div class="header-main-row">
-            <img src="/flightdeck_logo.svg" alt="Flight Deck Logo" class="header-logo">
-            <div class="header-main-title">Flight Deck</div>
-        </div>
-
-        <div class="header-subtitle">The Official AVDJ.ca AViator Academy</div>
-    </div>
-
-    <p class="tagline">Navigate the airwaves. Master your instrument panel and enjoy the voyage through sound and time.</p>
-    <a href="https://flightdeck.avdj.ca/playerOne/" target="_blank" class="flight-deck-badge" style="text-decoration: none; color: white;">✈️ LAUNCH FLIGHT DECK ✈️</a>
-</header>
+            <p class="tagline">Navigate the airwaves. Master your instrument panel and enjoy the voyage through sound and time.</p>
+            <a href="https://flightdeck.avdj.ca/playerOne/" target="_blank" class="flight-deck-badge" style="text-decoration: none; color: white;">✈️ LAUNCH FLIGHT DECK ✈️</a>
+        </header>
 
         <div class="voyage-intro">
             <h2>✈️ From Crew Access to Major Elite</h2>
@@ -1474,18 +1450,16 @@
     </div>
 
     <script>
-        // Element constants
         const loginModal = document.getElementById('loginModal');
         const registerModal = document.getElementById('registerModal');
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
         const mainNav = document.querySelector('.main-nav');
 
-        // Modal functions
         function openLoginModal() {
             loginModal.classList.add('active');
             document.body.style.overflow = 'hidden';
-            navLinks.classList.remove('active'); // Close mobile nav
+            navLinks.classList.remove('active');
         }
 
         function closeLoginModal() {
@@ -1513,7 +1487,6 @@
             openLoginModal();
         }
 
-        // Close modal when clicking outside
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('modal-overlay')) {
                 closeLoginModal();
@@ -1521,33 +1494,27 @@
             }
         });
 
-        // Hamburger menu toggle
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
 
-        // Close mobile nav when a link is clicked
         navLinks.addEventListener('click', (e) => {
             if (e.target.tagName === 'A') {
                 navLinks.classList.remove('active');
             }
         });
 
-        // Hide/show nav on scroll
         let lastScrollY = window.scrollY;
 
         window.addEventListener('scroll', () => {
             if (lastScrollY < window.scrollY && window.scrollY > 100) {
-                // Scrolling down & past 100px
                 mainNav.classList.add('nav-hidden');
             } else {
-                // Scrolling up
                 mainNav.classList.remove('nav-hidden');
             }
             lastScrollY = window.scrollY;
         });
 
-        // Form submissions (placeholder - add your backend logic here)
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             alert('Login functionality coming Q1 2026!');
@@ -1560,7 +1527,6 @@
             closeRegisterModal();
         });
 
-        // Add dynamic sparkle effects
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.license-card');
             
@@ -1575,7 +1541,6 @@
                 });
             });
 
-            // Add scroll reveal animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
