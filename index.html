@@ -1055,12 +1055,21 @@
             text-align: center;
             line-height: 50px;
             font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
             box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+        }
+        .scroll-to-top img {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            top: -3px;
         }
         .scroll-to-top.visible {
             opacity: 1;
@@ -1460,7 +1469,7 @@
         <p>&copy; 2024 AVDJ. All Rights Reserved. | Flight Deck is a project by AVDJ.</p>
     </footer>
 
-    <a href="#" class="scroll-to-top" id="scrollToTopBtn">↑</a>
+    <a href="#" class="scroll-to-top" id="scrollToTopBtn"><img src="/favicon.svg" alt="Scroll to top"></a>
     
     <!-- Login/Register Modal -->
     <div class="modal-overlay" id="loginModal">
