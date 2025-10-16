@@ -220,6 +220,27 @@
 
         .header-title-group {
             margin-bottom: 2rem;
+           display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.4rem;
+        }
+         .header-main-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            flex: 0 0 40px;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));
+        }
+
+        @media (max-width: 768px) {
+            .header-logo { width: 32px; height: 32px; flex: 0 0 32px; }
         }
 
         .header-welcome {
@@ -1041,15 +1062,22 @@
     </nav>
     
     <div class="container">
-        <header>
-            <div class="header-title-group">
-                <div class="header-welcome">Welcome to the</div>
-                <div class="header-main-title">Flight Deck</div>
-                <div class="header-subtitle">The Official AVDJ.ca AViator Academy</div>
-            </div>
-            <p class="tagline">Navigate the airwaves. Master your instrument panel and enjoy the voyage through sound and time.</p>
-            <a href="https://flightdeck.avdj.ca/playerOne/" target="_blank" class="flight-deck-badge" style="text-decoration: none; color: white;">✈️ LAUNCH FLIGHT DECK ✈️</a>
-        </header>
+<header>
+    <div class="header-title-group">
+        <div class="header-welcome">Welcome to the</div>
+
+        <!-- replaced single title with a row containing the logo + title -->
+        <div class="header-main-row">
+            <img src="/flightdeck_logo.svg" alt="Flight Deck Logo" class="header-logo">
+            <div class="header-main-title">Flight Deck</div>
+        </div>
+
+        <div class="header-subtitle">The Official AVDJ.ca AViator Academy</div>
+    </div>
+
+    <p class="tagline">Navigate the airwaves. Master your instrument panel and enjoy the voyage through sound and time.</p>
+    <a href="https://flightdeck.avdj.ca/playerOne/" target="_blank" class="flight-deck-badge" style="text-decoration: none; color: white;">✈️ LAUNCH FLIGHT DECK ✈️</a>
+</header>
 
         <div class="voyage-intro">
             <h2>✈️ From Crew Access to Major Elite</h2>
