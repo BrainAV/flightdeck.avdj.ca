@@ -15,8 +15,8 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AVDJ.ca - Your AViator Academy. Master your Instrument Panel at flightdeck.avdj.ca. Navigate the airwaves and earn your way from Crew Access to Major Elite.">
-    <title>AVDJ.ca | Flight Deck - Earn Your AViator License</title>
+    <meta name="description" content="AVDJ.ca - Your AViator Academy. Master your Instrument Panel at flightdeck.avdj.ca. Navigate the airwaves and earn your way from the Flight Deck to Major Elite.">
+    <title>AVDJ.ca | Flight Deck - Earn Your AV8R Licence</title>
     <style>
         html {
             scroll-behavior: smooth;
@@ -64,7 +64,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 2px;
             background: linear-gradient(90deg, 
                 #ff00ff 0%, 
                 #00ffff 50%, 
@@ -244,6 +244,7 @@
             font-weight: 400;
             background: linear-gradient(135deg, #a29bfe, #00ffff);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 2px;
         }
@@ -254,6 +255,7 @@
             background: linear-gradient(135deg, #00ffff, #ff00ff);
             background-size: 200% 200%;
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradientShift 4s ease infinite;
@@ -339,6 +341,7 @@
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, #00ffff, #ff00ff);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
         }
@@ -644,6 +647,7 @@
             font-size: 2.5rem;
             background: linear-gradient(135deg, #ff00ff, #00ffff);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
         }
@@ -707,6 +711,7 @@
             background: linear-gradient(135deg, #667eea, #764ba2, #667eea);
             background-size: 200% 200%;
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradientShift 3s ease infinite;
             font-weight: 900;
@@ -761,6 +766,7 @@
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, #ffd700, #00ffff, #ff00ff);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
         }
@@ -848,6 +854,7 @@
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #00ffff, #ff00ff);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -1014,6 +1021,55 @@
                 font-size: 1.2rem;
             }
         }
+
+        .site-footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            color: #888;
+            font-size: 0.9rem;
+        }
+        .site-footer a {
+            color: #aaa;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+        .site-footer a:hover {
+            color: #00ffff;
+        }
+        .footer-links {
+            margin-bottom: 1rem;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-size: 24px;
+            text-decoration: none;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+        }
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .scroll-to-top:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.6);
+        }
     </style>
 </head>
 <body>
@@ -1048,7 +1104,7 @@
                 <img src="/flightdeck_logo.svg" alt="Flight Deck Logo" class="header-logo">
                 <div class="header-welcome">Welcome to the</div>
                 <div class="header-main-title">Flight Deck</div>
-                <div class="header-subtitle">The Official AVDJ.ca AViator Academy</div>
+                <div class="header-subtitle">The Official AVDJ AV8R Academy</div>
             </div>
 
             <p class="tagline">Navigate the airwaves. Master your instrument panel and enjoy the voyage through sound and time.</p>
@@ -1056,25 +1112,26 @@
         </header>
 
         <div class="voyage-intro">
-            <h2>✈️ From Crew Access to Major Elite</h2>
-            <p><strong>The voyage is the destination.</strong> Begin with instant Crew Access—no login, no commitment. Earn your Club Cadet Permit and start collecting flight hours. Unlock your AViator License through badges or subscription. Advance to Captain and command professional airwaves. Reach Major Elite status with experimental panels and Black Ops skins.</p>
+            <h2>✈️ From Flight Deck to Major Elite</h2>
+            <p><strong>The voyage is the destination.</strong> Begin on the Flight Deck—no login, no commitment. Earn your Club Cadet Permit and start collecting flight hours. Unlock your AV8R Licence through badges or subscription. Advance to Captain and command professional airwaves. Reach Major Elite status with experimental panels and Black Ops skins.</p>
             <p style="margin-top: 1.5rem;">Whether stepping onto the flight line for the first time or commanding commercial vessels—<strong>earn your way, enjoy the journey.</strong></p>
         </div>
 
         <div class="gamification-callout">
-            <h3>🎖️ Earn Your Way to AViator License</h3>
-            <p><strong>New gamified progression!</strong> Start as a Club Cadet and collect "Flight Hours" badges by mixing, mastering techniques, and completing challenges. Earn enough badges to unlock the AViator License FREE—or subscribe for instant ad-free upgrade. Your skill determines your rank!</p>
+            <h3>🎖️ Earn Your Way to an AV8R Licence</h3>
+            <p><strong>New gamified progression!</strong> Start as a Club Cadet and collect "Flight Hours" badges by mixing, mastering techniques, and completing challenges. Earn enough badges to unlock the AV8R Licence FREE—or subscribe for instant ad-free upgrade. Your skill determines your rank!</p>
         </div>
 
         <div id="features" class="pilot-licenses">
-            <!-- Crew Access -->
+            <!-- Flight Deck -->
             <div class="license-card crew-access">
-                <div class="license-icon">👥</div>
-                <h3 class="license-title">Crew Access</h3>
-                <p class="license-subtitle">Introductory Demo</p>
+                <div class="license-icon">✈️</div>
+                <h3 class="license-title">Flight Deck</h3>
+                <p class="license-subtitle">Crew Access</p>
                 <div class="license-badge">Instant Access</div>
                 
                 <ul class="license-features">
+                    <li>No login, No limits!</li>
                     <li>Single Deck Panel</li>
                     <li>Essential Mixer Controls</li>
                     <li>Basic Waveform</li>
@@ -1082,20 +1139,22 @@
                     <li>Explore Before You Commit</li>
                 </ul>
 
-                <p style="margin-top: 1rem; opacity: 0.85; font-size: 0.9rem;">🚶 <strong>Step onto the flight line.</strong> No login required. Get familiar with the controls.</p>
+                <p style="margin-top: 1rem; opacity: 0.85; font-size: 0.9rem;"><strong>Welcome to the Flight Deck.</strong> All crew members are gifted the Level 1 badge. No login required.</p>
+                <img src="images/L1-flightdeck.webp" alt="Level 1 Flight Deck Badge" style="width: 100px; margin-top: 1rem; border-radius: 10px;">
                 
-                <a href="https://flightdeck.avdj.ca/playerOne/" class="cta-button" target="_blank">Try Crew Access</a>
+                <a href="https://flightdeck.avdj.ca/playerOne/" class="cta-button" target="_blank">Enter Flight Deck</a>
             </div>
 
             <!-- Club Cadet Permit -->
             <div class="license-card club-cadet">
                 <div class="license-icon">🎓</div>
-                <h3 class="license-title">Club Cadet Permit</h3>
-                <p class="license-subtitle">Entry-Level License</p>
+                <h3 class="license-title">Club Cadet</h3>
+                <p class="license-subtitle">Login & Lift Off</p>
                 <div class="license-badge">Login Required</div>
                 <div class="unlock-badge">🎖️ BADGES START HERE</div>
                 
                 <ul class="license-features">
+                    <li>Launchpad Access</li>
                     <li>Dual Deck Navigation Panel</li>
                     <li>Basic Waveform Display</li>
                     <li>Essential Mixer Controls</li>
@@ -1113,11 +1172,11 @@
                 <button class="cta-button">Get Cadet Permit (Q1 2026)</button>
             </div>
 
-            <!-- AViator License -->
+            <!-- AV8R Licence -->
             <div class="license-card aviator">
                 <div class="license-icon">🧭</div>
-                <h3 class="license-title">AViator License</h3>
-                <p class="license-subtitle">Advanced Learner's License</p>
+                <h3 class="license-title">AV8R Licence</h3>
+                <p class="license-subtitle">Earn Your Wings With Hours Logged Or A One‑Time Fee</p>
                 <div class="license-badge">Earn or Subscribe</div>
                 <div class="unlock-badge">🏆 UNLOCK VIA BADGES OR PAY</div>
                 
@@ -1144,7 +1203,7 @@
             <div class="license-card captain">
                 <div class="license-icon">👨‍✈️</div>
                 <h3 class="license-title">Captain License</h3>
-                <p class="license-subtitle">Mid-Pro Commercial</p>
+                <p class="license-subtitle">Pay More To Play Bigger</p>
                 <div class="license-badge">Paid Subscription</div>
                 
                 <ul class="license-features">
@@ -1169,7 +1228,7 @@
             <div class="license-card major-elite">
                 <div class="license-icon">⭐</div>
                 <h3 class="license-title">Major Elite License</h3>
-                <p class="license-subtitle">Premium Pro - Highest Rank</p>
+                <p class="license-subtitle">The Highest Rank, The Ultimate Gear</p>
                 <div class="license-badge">Premium Subscription</div>
                 <div class="special-badge">🔬 EXPERIMENTAL ACCESS</div>
                 
@@ -1217,12 +1276,12 @@
         </div>
 
         <div id="compare" class="comparison-table">
-            <h2>⚡ AViator License Comparison ⚡</h2>
+            <h2>⚡ AV8R Licence Comparison ⚡</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Feature</th>
-                        <th>Crew Access 👥</th>
+                        <th>Flight Deck ✈️</th>
                         <th>Club Cadet 🎓</th>
                         <th>AViator 🧭</th>
                         <th>Captain 👨‍✈️</th>
@@ -1232,7 +1291,7 @@
                 <tbody>
                     <tr>
                         <td><strong>Rank Level</strong></td>
-                        <td><span class="limited">Demo</span></td>
+                        <td><span class="limited">Level 1</span></td>
                         <td><span class="limited">Entry</span></td>
                         <td><span class="limited">Advanced</span></td>
                         <td><span class="check">Pro</span></td>
@@ -1380,17 +1439,29 @@
 
         <div id="start" class="voyage-footer">
             <h2>🎓 Your Flight Path to Mastery</h2>
-            <p>Start with <strong>Crew Access</strong>—instant, no login. Step onto the flight line and explore.</p>
+            <p>Start on the <strong>Flight Deck</strong>—instant, no login. Step onto the flight line and explore.</p>
             <p>Earn your <strong>Club Cadet Permit</strong> and begin collecting flight hours badges. Master techniques and complete challenges.</p>
-            <p><strong>Unlock AViator License FREE</strong> by earning enough badges—or subscribe for instant ad-free access and advanced features.</p>
+            <p><strong>Unlock AV8R Licence FREE</strong> by earning enough badges—or subscribe for instant ad-free access and advanced features.</p>
             <p>Advance to <strong>Captain License</strong> for professional command. Navigate major airwaves with precision tools.</p>
             <p>Reach <strong>Major Elite status</strong> for experimental panels, Black Ops skins, and the highest rank an aviator can achieve.</p>
             <p style="margin-top: 2rem; font-size: 1.3rem;"><strong>Real-time monitoring. Decision-making under pressure. Smooth operations.</strong></p>
             <p style="margin-top: 1rem; font-size: 1.2rem; color: #00ffff;">Whether stepping onto the flight line or commanding commercial vessels—<strong>earn your stripes, enjoy the voyage.</strong></p>
-            <p style="margin-top: 2rem; font-style: italic; opacity: 0.8;">No credit card required for Crew, Cadet, or earning AViator License. Upgrade when you're ready to reach new levels. 🚀</p>
+            <p style="margin-top: 2rem; font-style: italic; opacity: 0.8;">No credit card required for Crew, Cadet, or earning AV8R Licence. Upgrade when you're ready to reach new levels. 🚀</p>
         </div>
     </div>
 
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="#features">Tiers</a>
+            <a href="#compare">Compare</a>
+            <a href="#start">Get Started</a>
+            <a href="https://avdj.ca" target="_blank">AVDJ.ca</a>
+        </div>
+        <p>&copy; 2024 AVDJ. All Rights Reserved. | Flight Deck is a project by AVDJ.</p>
+    </footer>
+
+    <a href="#" class="scroll-to-top" id="scrollToTopBtn">↑</a>
+    
     <!-- Login/Register Modal -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-content">
@@ -1455,6 +1526,7 @@
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
         const mainNav = document.querySelector('.main-nav');
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
         function openLoginModal() {
             loginModal.classList.add('active');
@@ -1513,6 +1585,20 @@
                 mainNav.classList.remove('nav-hidden');
             }
             lastScrollY = window.scrollY;
+
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
 
         document.getElementById('loginForm').addEventListener('submit', (e) => {
