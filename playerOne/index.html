@@ -187,6 +187,7 @@ body {
 .button-row {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 /* Add this to your <style> block */
 .button-center-wrapper {
@@ -381,6 +382,7 @@ button:active {
 
 .pitch-slider {
   -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
   writing-mode: bt-lr;
   width: 40px;
   height: 100%;
@@ -848,15 +850,10 @@ class DN1000F {
   handleCuePress(event) {
     if (!this.buffer) return;
 
-    // If the track is not playing...
-    if (!this.isPlaying) {
-      // ...and a cue point is set and the playhead is at that point...
-      if (this.hasCuePoint && this.getCurrentTime() === this.cuePoint) {
-        // ...then play from the cue point (for stutter effect).
-        this.play();
-        return;
-      } else {
-        // ...otherwise, set a new cue point at the current position.
+    // If playing, set cue or return to cue.
+    if (this.isPlaying) {
+      // If no cue point is set yet, set it at the current position.
+      if (!this.hasCuePoint) {
         this.cuePoint = this.getCurrentTime();
         this.hasCuePoint = true;
         document.getElementById('cueLed').classList.add('led-on');
@@ -864,14 +861,23 @@ class DN1000F {
         this.updateDisplay();
         return;
       }
-    }
-
-    // If the track is playing OR a cue point is set, pressing CUE plays from the cue point.
-    if (this.hasCuePoint) {
+      // If a cue point exists, jump to it and continue playing.
       const wasPlaying = this.isPlaying;
       if (wasPlaying) this.pause(); // Pause to stop current playback
       this.startOffset = this.cuePoint;
       this.play();
+    } else { // If not playing (paused)
+      // If a cue point is set and we are at it, play for stutter effect.
+      if (this.hasCuePoint && this.getCurrentTime() === this.cuePoint) {
+        this.play();
+      } else {
+        // Otherwise, set a new cue point at the current position.
+        this.cuePoint = this.getCurrentTime();
+        this.hasCuePoint = true;
+        document.getElementById('cueLed').classList.add('led-on');
+        this.updateCueMarker();
+        this.updateDisplay();
+      }
     }
   }
 
