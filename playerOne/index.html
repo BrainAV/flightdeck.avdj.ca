@@ -622,10 +622,22 @@ class DN1000F {
       this.togglePlayPause();
     });
     
-    document.getElementById('cueBtn').addEventListener('click', () => {
-      this.setCue();
+    const cueButton = document.getElementById('cueBtn');
+    cueButton.addEventListener('mousedown', (e) => {
+      this.handleCuePress(e);
     });
-    
+    cueButton.addEventListener('mouseup', (e) => {
+      this.handleCueRelease(e);
+    });
+    cueButton.addEventListener('mouseleave', (e) => {
+      // If the mouse leaves while pressed, treat it as a release
+      if (e.buttons === 1 || e.buttons === 2) {
+        this.handleCueRelease(e);
+      }
+    });
+    // Prevent context menu on right-click to use it for our custom action
+    cueButton.addEventListener('contextmenu', (e) => e.preventDefault());
+
     document.getElementById('prevTrack').addEventListener('click', () => {
       this.previousTrack();
     });
@@ -772,8 +784,6 @@ class DN1000F {
       this.audioContext.resume();
     }
     
-    this.stop();
-    
     this.source = this.audioContext.createBufferSource();
     this.source.buffer = this.buffer;
     
@@ -787,8 +797,10 @@ class DN1000F {
     
     this.source.onended = () => {
       if (this.isPlaying) {
-        this.stop();
-        this.nextTrack();
+        // Check if we reached the end of the track naturally
+        if (this.getCurrentTime() >= this.buffer.duration - 0.1) {
+            this.nextTrack();
+        }
       }
     };
     
@@ -820,37 +832,61 @@ class DN1000F {
   stop() {
     if (this.source) {
       try {
+        this.source.onended = null; // Prevent onended from firing on manual stop
         this.source.stop();
       } catch (e) {}
       this.source = null;
     }
     
     this.isPlaying = false;
+    // Resetting startOffset here is what causes the track to restart.
     this.startOffset = 0;
     cancelAnimationFrame(this.animationId);
     this.updateDisplay();
   }
   
-  setCue() {
+  handleCuePress(event) {
     if (!this.buffer) return;
-    
-    if (this.isPlaying) {
-      this.cuePoint = this.getCurrentTime();
-      this.hasCuePoint = true;
-      this.pause();
-      document.getElementById('cueLed').classList.add('led-on');
-    } else {
-      if (this.hasCuePoint) {
-        this.startOffset = this.cuePoint;
-        this.updateDisplay();
+
+    // If the track is not playing...
+    if (!this.isPlaying) {
+      // ...and a cue point is set and the playhead is at that point...
+      if (this.hasCuePoint && this.getCurrentTime() === this.cuePoint) {
+        // ...then play from the cue point (for stutter effect).
+        this.play();
+        return;
       } else {
-        this.cuePoint = this.startOffset;
+        // ...otherwise, set a new cue point at the current position.
+        this.cuePoint = this.getCurrentTime();
         this.hasCuePoint = true;
         document.getElementById('cueLed').classList.add('led-on');
+        this.updateCueMarker();
+        this.updateDisplay();
+        return;
       }
     }
-    
-    this.updateCueMarker();
+
+    // If the track is playing OR a cue point is set, pressing CUE plays from the cue point.
+    if (this.hasCuePoint) {
+      const wasPlaying = this.isPlaying;
+      if (wasPlaying) this.pause(); // Pause to stop current playback
+      this.startOffset = this.cuePoint;
+      this.play();
+    }
+  }
+
+  handleCueRelease(event) {
+    if (!this.buffer || !this.hasCuePoint) return;
+
+    // On right-click release (button=2), we let the music continue to play.
+    if (this.isPlaying && event.button === 2) {
+      return; // Do nothing, let it play.
+    }
+
+    // For stutter play (left-click release), stop and return to the cue point.
+    this.pause();
+    this.startOffset = this.cuePoint;
+    this.updateDisplay();
   }
   
   getCurrentTime() {
@@ -864,21 +900,43 @@ class DN1000F {
     return this.startOffset;
   }
   
-  previousTrack() {
-    if (this.currentTrack > 0) {
+    previousTrack() {
+    if (!this.buffer) return;
+
+    const wasPlaying = this.isPlaying;
+    const currentTime = this.getCurrentTime();
+
+    // If track has been playing for more than 3 seconds, or we are not on the first track,
+    // pressing 'previous' will restart the current track.
+    if (currentTime > 3 || this.currentTrack === 0) {
+      if (wasPlaying) this.pause();
+      this.startOffset = 0;
+      this.updateDisplay();
+      if (wasPlaying) this.play();
+    } 
+    // If the track is within the first 3 seconds and it's not the first track, go to the previous track.
+    else if (this.currentTrack > 0) {
       this.loadTrack(this.currentTrack - 1);
+      if (wasPlaying) {
+        this.play();
+      }
+    } else {
+      // If it's the first track and within the first 3 seconds, just restart it.
+      if (wasPlaying) this.pause();
+      this.startOffset = 0;
+      this.updateDisplay();
+      if (wasPlaying) this.play();
     }
   }
   
   nextTrack() {
     if (this.currentTrack < this.tracks.length - 1) {
+      const wasPlaying = this.isPlaying;
       this.loadTrack(this.currentTrack + 1);
-      if (this.isPlaying) {
-        this.play();
-      }
+      if (wasPlaying) this.play();
     }
   }
-  
+
   toggleTimeMode() {
     this.timeMode = this.timeMode === 'elapsed' ? 'remain' : 'elapsed';
     const btn = document.getElementById('timeBtn');
@@ -886,7 +944,7 @@ class DN1000F {
     document.getElementById('timeMode').textContent = this.timeMode === 'elapsed' ? 'ELAPSED' : 'REMAIN';
     this.updateDisplay();
   }
-  
+
   togglePitch() {
     this.isPitchEnabled = !this.isPitchEnabled;
     document.getElementById('pitchBtnText').textContent = this.isPitchEnabled ? 'PITCH ON' : 'PITCH OFF';
@@ -901,7 +959,7 @@ class DN1000F {
     
     this.updateDisplay();
   }
-  
+
   setPitch(value) {
     this.pitchValue = value;
     document.getElementById('pitchValue').textContent = (value >= 0 ? '+' : '') + value.toFixed(1) + '%';
@@ -916,7 +974,7 @@ class DN1000F {
       this.source.playbackRate.value = playbackRate;
     }
   }
-  
+
   startPitchBend(direction) {
     this.pitchBendInterval = setInterval(() => {
       const newValue = Math.max(-10, Math.min(10, this.pitchValue + (direction * 0.5)));
@@ -924,14 +982,14 @@ class DN1000F {
       this.setPitch(newValue);
     }, 50);
   }
-  
+
   stopPitchBend() {
     if (this.pitchBendInterval) {
       clearInterval(this.pitchBendInterval);
       this.pitchBendInterval = null;
     }
   }
-  
+
   startSearch(direction) {
     this.searchInterval = setInterval(() => {
       if (!this.buffer) return;
@@ -945,7 +1003,7 @@ class DN1000F {
       if (wasPlaying) this.play();
     }, 100);
   }
-  
+
   stopSearch() {
     if (this.searchInterval) {
       clearInterval(this.searchInterval);
@@ -953,7 +1011,7 @@ class DN1000F {
     }
   }
   
-  formatTime(seconds) {
+    formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     const frames = Math.floor((seconds % 1) * 75);
@@ -977,7 +1035,7 @@ class DN1000F {
     
     this.updatePlayhead();
   }
-  
+
   updateAlbumArt() {
     const albumArtContainer = document.getElementById('albumArt');
     const track = this.tracks[this.currentTrack];
