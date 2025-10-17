@@ -326,12 +326,6 @@ button:active {
   padding: 12px;
 }
 
-.btn-pitch.active {
-  background: linear-gradient(145deg,  #2563eb, #1d4ed8);
-  color: white;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-}
-
 .pitch-bend-row {
   display: flex;
   gap: 8px;
@@ -549,7 +543,7 @@ button:active {
       
       <div class="pitch-controls">
         <div class="control-label">PITCH</div>
-        <button id="pitchBtn" class="btn-pitch">
+        <button id="pitchBtn">
           <span id="pitchBtnText">PITCH OFF</span>
         </button>
         <div class="control-label">PITCH BEND</div>
@@ -600,6 +594,7 @@ class DN1000F {
     this.hasCuePoint = false;
     this.timeMode = 'elapsed';
     
+    this.pitchRampInterval = null;
     this.source = null;
     this.buffer = null;
     this.gainNode = this.audioContext.createGain();
@@ -612,8 +607,6 @@ class DN1000F {
     this.animationId = null;
     this.searchInterval = null;
     this.pitchBendInterval = null;
-    this.preBendPitchValue = null;
-    this.pitchReturnInterval = null;
     
     this.setupEventListeners();
     this.updateDisplay();
@@ -673,20 +666,20 @@ class DN1000F {
       this.startPitchBend(1);
     });
     document.getElementById('pitchUp').addEventListener('mouseup', () => {
-      this.stopPitchBend(true);
+      this.stopPitchBend();
     });
     document.getElementById('pitchUp').addEventListener('mouseleave', () => {
-      this.stopPitchBend(false);
+      this.stopPitchBend();
     });
     
     document.getElementById('pitchDown').addEventListener('mousedown', () => {
       this.startPitchBend(-1);
     });
     document.getElementById('pitchDown').addEventListener('mouseup', () => {
-      this.stopPitchBend(true);
+      this.stopPitchBend();
     });
     document.getElementById('pitchDown').addEventListener('mouseleave', () => {
-      this.stopPitchBend(false);
+      this.stopPitchBend();
     });
     
     // Search buttons
@@ -960,31 +953,47 @@ class DN1000F {
   }
 
   togglePitch() {
-    this.isPitchEnabled = !this.isPitchEnabled;
-    document.getElementById('pitchBtnText').textContent = this.isPitchEnabled ? 'PITCH ON' : 'PITCH OFF';
-    document.getElementById('pitchBtn').classList.toggle('active', this.isPitchEnabled);
-    
+    // If a ramp is already in progress, do nothing.
+    if (this.pitchRampInterval) return;
+
+    // If turning pitch ON
     if (!this.isPitchEnabled) {
-      this.setPitch(0);
-      document.getElementById('pitchSlider').value = 0;
+      this.isPitchEnabled = true;
+      document.getElementById('pitchBtnText').textContent = 'PITCH ON';
+      if (this.isPlaying) {
+        // Re-apply pitch by briefly pausing and playing
+        const wasPlaying = this.isPlaying;
+        this.pause();
+        if (wasPlaying) this.play();
+      }
+      this.updateDisplay();
+      return;
     }
 
-    if (this.isPlaying) {
-      // We need to pause and play to apply the new playback rate correctly.
-      this.pause();
-      this.play();
-    } else {
-      // If paused, we still need to update the playback rate for when it resumes.
-      // This requires creating and stopping a dummy source node.
-      // This is a bit of a workaround for the Web Audio API's architecture.
-      const dummySource = this.audioContext.createBufferSource();
-      dummySource.buffer = this.buffer;
-      const playbackRate = 1 + (this.isPitchEnabled ? this.pitchValue / 100 : 0);
-      dummySource.playbackRate.value = playbackRate;
-      // No need to connect or start, the rate is latched for the next real `play()` call.
-    }
-    
-    this.updateDisplay();
+    // If turning pitch OFF, start the ramp to 0
+    this.isPitchEnabled = !this.isPitchEnabled;
+    document.getElementById('pitchBtnText').textContent = this.isPitchEnabled ? 'PITCH ON' : 'PITCH OFF';
+
+    const rampDuration = 500; // ms
+    const stepTime = 20; // ms
+    const totalSteps = rampDuration / stepTime;
+    const initialPitch = this.pitchValue;
+    let currentStep = 0;
+
+    this.pitchRampInterval = setInterval(() => {
+      currentStep++;
+      const newPitch = initialPitch * (1 - (currentStep / totalSteps));
+      this.setPitch(newPitch);
+      document.getElementById('pitchSlider').value = newPitch;
+
+      if (currentStep >= totalSteps) {
+        clearInterval(this.pitchRampInterval);
+        this.pitchRampInterval = null;
+        this.setPitch(0); // Ensure it ends exactly at 0
+        document.getElementById('pitchSlider').value = 0;
+        // The playback rate is now 1.0, so we don't need to pause/play.
+      }
+    }, stepTime);
   }
 
   setPitch(value) {
@@ -1003,59 +1012,17 @@ class DN1000F {
   }
 
   startPitchBend(direction) {
-    // If pitch is not enabled, do nothing.
-    if (!this.isPitchEnabled) return;
-
-    // If it's currently returning to a pitch, stop that.
-    if (this.pitchReturnInterval) {
-      clearInterval(this.pitchReturnInterval);
-      this.pitchReturnInterval = null;
-    }
-
-    // If a bend/return cycle is not already in progress, store the current pitch.
-    if (this.preBendPitchValue === null) {
-      this.preBendPitchValue = this.pitchValue;
-    }
-
-    // Clear any existing bend interval to prevent multiple intervals from running
-    clearInterval(this.pitchBendInterval);
-    this.pitchBendInterval = null;
-
     this.pitchBendInterval = setInterval(() => {
-      // Bending is only temporary, so we don't update the slider value directly
-      const tempPitch = this.pitchValue + (direction * 0.5);
-      const newValue = Math.max(-10, Math.min(10, tempPitch));
+      const newValue = Math.max(-10, Math.min(10, this.pitchValue + (direction * 0.5)));
       document.getElementById('pitchSlider').value = newValue;
       this.setPitch(newValue);
     }, 50);
   }
 
-  stopPitchBend(isMouseUp) {
-    clearInterval(this.pitchBendInterval);
-    // If the mouse is still down (mouseleave event), don't do anything else.
-    // Only proceed if the button was actually released (mouseup).
-    if (!isMouseUp) return;
-
-    this.pitchBendInterval = null;
-
-    // If we have a pre-bend value, ramp back to it.
-    if (this.preBendPitchValue !== null) {
-      this.pitchReturnInterval = setInterval(() => {
-        const step = 0.1;
-        const difference = this.preBendPitchValue - this.pitchValue;
-
-        if (Math.abs(difference) < step) {
-          this.setPitch(this.preBendPitchValue);
-          document.getElementById('pitchSlider').value = this.preBendPitchValue;
-          clearInterval(this.pitchReturnInterval);
-          this.pitchReturnInterval = null;
-          this.preBendPitchValue = null; // Reset for next time
-        } else {
-          const newPitch = this.pitchValue + (difference > 0 ? step : -step);
-          this.setPitch(newPitch);
-          document.getElementById('pitchSlider').value = newPitch;
-        }
-      }, 10); // A short interval for a smooth ramp
+  stopPitchBend() {
+    if (this.pitchBendInterval) {
+      clearInterval(this.pitchBendInterval);
+      this.pitchBendInterval = null;
     }
   }
 
