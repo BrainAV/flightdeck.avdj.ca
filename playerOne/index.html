@@ -482,7 +482,7 @@ button:active {
             <div class="track-title" id="trackTitle">NO DISC</div>
           </div>
         </div>
-        <div class="waveform-container">
+        <div class="waveform-container" id="waveformContainer">
           <canvas class="waveform-canvas" id="waveformCanvas"></canvas>
           <div class="playhead" id="playhead" style="left: 0;"></div>
           <div class="cue-marker" id="cueMarker" style="left: 0;"></div>
@@ -614,6 +614,9 @@ class DN1000F {
     this.pitchBendInterval = null;
     this.preBendPitchValue = null;
     this.pitchReturnInterval = null;
+
+    this.isSeeking = false;
+    this.wasPlayingBeforeSeek = false;
     
     this.setupEventListeners();
     this.updateDisplay();
@@ -722,6 +725,20 @@ class DN1000F {
       } else if (e.code === 'ArrowRight') {
         this.nextTrack();
       }
+    });
+
+    // Waveform seeking
+    const waveformContainer = document.getElementById('waveformContainer');
+    waveformContainer.addEventListener('mousedown', (e) => {
+      this.handleSeekStart(e);
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      this.handleSeekMove(e);
+    });
+
+    document.addEventListener('mouseup', () => {
+      this.handleSeekEnd();
     });
   }
   
@@ -1060,16 +1077,31 @@ class DN1000F {
   }
 
   startSearch(direction) {
+    if (this.searchInterval) {
+      clearInterval(this.searchInterval);
+    }
+
     this.searchInterval = setInterval(() => {
       if (!this.buffer) return;
       
       const wasPlaying = this.isPlaying;
-      if (wasPlaying) this.pause();
+      const searchIncrement = wasPlaying ? 0.2 : 0.01; // Larger jump when playing, smaller when paused
       
-      this.startOffset = Math.max(0, Math.min(this.buffer.duration, this.startOffset + (direction * 0.5)));
-      this.updateDisplay();
-      
-      if (wasPlaying) this.play();
+      // Update the offset
+      const newOffset = Math.max(0, Math.min(this.buffer.duration, this.startOffset + (direction * searchIncrement)));
+      this.startOffset = newOffset;
+
+      if (wasPlaying) {
+        // If playing, we need to restart from the new position.
+        // This involves a quick pause and play.
+        this.pause();
+        this.startOffset = newOffset; // Re-apply offset after pause calculation
+        this.play();
+      } else {
+        // If paused, play a short stutter and update the display.
+        this.playStutter(this.startOffset, 0.05); // Play 50ms for the stutter effect
+        this.updateDisplay();
+      }
     }, 100);
   }
 
@@ -1079,7 +1111,70 @@ class DN1000F {
       this.searchInterval = null;
     }
   }
+
+  playStutter(offset, duration) {
+    if (!this.buffer) return;
+
+    if (this.audioContext.state === 'suspended') {
+      this.audioContext.resume();
+    }
+
+    const stutterSource = this.audioContext.createBufferSource();
+    stutterSource.buffer = this.buffer;
+    stutterSource.connect(this.gainNode);
+
+    const playbackRate = 1 + (this.isPitchEnabled ? this.pitchValue / 100 : 0);
+    stutterSource.playbackRate.value = playbackRate;
+
+    stutterSource.start(0, offset, duration);
+  }
   
+  handleSeekStart(e) {
+    if (!this.buffer) return;
+
+    this.isSeeking = true;
+    this.wasPlayingBeforeSeek = this.isPlaying;
+
+    if (this.isPlaying) {
+      this.pause();
+    }
+
+    this.updateSeekPosition(e);
+  }
+
+  handleSeekMove(e) {
+    if (!this.isSeeking || !this.buffer) return;
+
+    this.updateSeekPosition(e);
+    // Stutter while dragging for precise cueing when paused
+    if (!this.wasPlayingBeforeSeek) {
+      this.playStutter(this.startOffset, 0.05);
+    }
+  }
+
+  handleSeekEnd() {
+    if (!this.isSeeking) return;
+
+    this.isSeeking = false;
+    if (this.wasPlayingBeforeSeek) {
+      this.play();
+    }
+  }
+
+  updateSeekPosition(e) {
+    const waveformContainer = document.getElementById('waveformContainer');
+    const rect = waveformContainer.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percentage = Math.max(0, Math.min(1, x / rect.width));
+
+    const newOffset = this.buffer.duration * percentage;
+    this.startOffset = newOffset;
+
+    // If we are setting a cue, update it to the new seek position
+    this.updateDisplay();
+  }
+
+
     formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
